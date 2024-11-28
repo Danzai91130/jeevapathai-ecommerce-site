@@ -1,0 +1,36 @@
+vendor
+# Jekyll-specific build files
+/_site/
+
+# Jekyll specific directories that should not be versioned
+/.sass-cache/
+/.jekyll-cache/
+/.jekyll-metadata
+
+# Ruby-specific files (for Jekyll)
+*.gem
+*.rbc
+/.ruby-version
+/.ruby-gemset
+.bundle/
+
+# OS-specific files (e.g., macOS or Windows)
+.DS_Store
+Thumbs.db
+
+# IDE and Editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+
+# Other general files
+*.log
+*.tmp
+
+# Dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
