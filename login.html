@@ -54,7 +54,7 @@ permalink: /login/
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         alert("Connecté avec succès !");
-        window.location.href = "/";  // Redirige vers la page d'accueil
+        window.location.href = "/products/";  // Redirige vers la page d'accueil
       })
       .catch((error) => {
         document.getElementById("error-message").textContent = error.message;
