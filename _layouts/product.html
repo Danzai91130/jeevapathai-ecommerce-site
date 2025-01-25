@@ -1,0 +1,39 @@
+---
+layout: home
+title: Produits
+permalink: /products/
+---
+
+<h1>Nos Produits</h1>
+<div id="products-container">
+  {% for product in site.data.products %}
+    <div class="product">
+      <img src="{{ product.image }}" alt="{{ product.name }}" class="product-image" />
+      <h2>{{ product.name }}</h2>
+      <p>{{ product.description }}</p>
+      <p><strong>Prix: {{ product.price }}€</strong></p>
+      <button class="add-to-cart" onclick="addToCart('{{ product.name }}', '{{ product.price }}', '{{ product.image }}')">Ajouter au panier</button>
+    </div>
+  {% endfor %}
+</div>
+
+<script>
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+  // Function to add a product to the cart
+  function addToCart(name, price, image) {
+    const product = { name, price, image, quantity: 1 };
+
+    // Check if the product already exists in the cart
+    const existingProduct = cart.find(item => item.name === name);
+    if (existingProduct) {
+      existingProduct.quantity++;
+    } else {
+      cart.push(product);
+    }
+
+    // Save the updated cart to localStorage
+    localStorage.setItem('cart', JSON.stringify(cart));
+    alert(`${name} a été ajouté au panier !`);
+  }
+</script>

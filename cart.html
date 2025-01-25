@@ -1,0 +1,82 @@
+---
+layout: home
+title: Mon Panier
+permalink: /cart/
+---
+<script type="module">
+  import { saveOrderToFirestore, getTotalPrice } from '/assets/js/firebase.js';
+
+  // Expose functions to the global scope
+  window.updateQuantity = updateQuantity;
+  window.removeFromCart = removeFromCart;
+  window.checkout = checkout;
+
+  // Fonction pour afficher le contenu du panier
+  function renderCart() {
+    const cartContainer = document.getElementById('cart-container');
+    const totalPriceContainer = document.getElementById('total-price');
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    if (cart.length === 0) {
+      cartContainer.innerHTML = '<p>Votre panier est vide.</p>';
+      totalPriceContainer.textContent = '';
+      return;
+    }
+
+    let cartHTML = '';
+    cart.forEach((item, index) => {
+      cartHTML += `
+        <div class="cart-item">
+          <img src="${item.image}" alt="${item.name}" style="width:50px;height:50px;"/>
+          <p>${item.name}</p>
+          <p>${item.price}€</p>
+          <p>Quantité: <button onclick="updateQuantity(${index}, -1)">-</button> ${item.quantity} <button onclick="updateQuantity(${index}, 1)">+</button></p>
+          <button onclick="removeFromCart(${index})">Supprimer</button>
+        </div>
+      `;
+    });
+
+    cartContainer.innerHTML = cartHTML;
+    totalPriceContainer.textContent = `Total: ${getTotalPrice()}€`;
+  }
+
+  // Fonction pour modifier la quantité d'un produit
+  function updateQuantity(index, change) {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart[index].quantity += change;
+
+    if (cart[index].quantity <= 0) {
+      cart.splice(index, 1);
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    renderCart();
+  }
+
+  // Fonction pour supprimer un produit du panier
+  function removeFromCart(index) {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart.splice(index, 1);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    renderCart();
+  }
+
+  // Fonction de validation du panier
+  function checkout() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    if (cart.length === 0) {
+      alert("Votre panier est vide !");
+      return;
+    }
+
+    saveOrderToFirestore(cart); // Now this works since it's imported from firebase.js
+  }
+
+  // Initialiser l'affichage du panier
+  renderCart();
+</script>
+
+<h1>Votre Panier</h1>
+<div id="cart-container"></div>
+<p id="total-price"></p>
+<button onclick="checkout()">Passer la commande</button>

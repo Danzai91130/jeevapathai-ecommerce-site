@@ -1,0 +1,13 @@
+{
+    "name": "jeevapathai-ecommerce-site",
+    "version": "1.0.0",
+    "description": "An e-commerce site built with Jekyll",
+    "main": "index.js",
+    "scripts": {
+      "build": "jekyll build",
+      "serve": "jekyll serve"
+    },
+    "dependencies": {},
+    "devDependencies": {}
+  }
+  

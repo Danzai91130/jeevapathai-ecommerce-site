@@ -1,0 +1,79 @@
+---
+layout: default
+title: Connexion
+permalink: /login/
+---
+
+<h1>Se connecter</h1>
+
+<!-- Formulaire de connexion -->
+<h2>Se connecter</h2>
+<form id="login-form">
+  <input type="email" id="email" placeholder="Email" required />
+  <input type="password" id="password" placeholder="Mot de passe" required />
+  <button type="submit">Se connecter</button>
+</form>
+
+<!-- Formulaire de création de compte -->
+<h2>Créer un compte</h2>
+<form id="signup-form">
+  <input type="email" id="new-email" placeholder="Email" required />
+  <input type="password" id="new-password" placeholder="Mot de passe" required />
+  <button type="submit">Créer un compte</button>
+</form>
+
+<p id="error-message" style="color: red;"></p>
+
+<!-- Firebase SDK Imports -->
+<script type="module">
+  // Import Firebase SDK modules
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
+  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js';
+
+  // Configuration Firebase (remplacez ces valeurs par les vôtres)
+  const firebaseConfig = {
+    apiKey: "AIzaSyDHFuuNQPyNX3-696-_6olMlMPJ0V3akYw",
+    authDomain: "jeevapathai-store.firebaseapp.com",
+    projectId: "jeevapathai-store",
+    storageBucket: "jeevapathai-store.firebasestorage.app",
+    messagingSenderId: "356173065351",
+    appId: "1:356173065351:web:ffb8b304925bda8b909c22",
+    measurementId: "G-516Y7MMB6R"
+  };
+
+  // Initialisation de Firebase
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // Fonction de connexion
+  document.getElementById("login-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        alert("Connecté avec succès !");
+        window.location.href = "/";  // Redirige vers la page d'accueil
+      })
+      .catch((error) => {
+        document.getElementById("error-message").textContent = error.message;
+      });
+  });
+
+  // Fonction de création de compte
+  document.getElementById("signup-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const email = document.getElementById("new-email").value;
+    const password = document.getElementById("new-password").value;
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        alert("Compte créé avec succès !");
+        window.location.href = "/";  // Redirige vers la page d'accueil
+      })
+      .catch((error) => {
+        document.getElementById("error-message").textContent = error.message;
+      });
+  });
+</script>
